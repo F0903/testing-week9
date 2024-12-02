@@ -63,3 +63,4 @@ I have no speficic points I want you to look at for feedback, so just find what 
 - Moved source files to "src" directory
 - Added test directory for tests
 - Wrote the tests
+- Fixed PolarFileHandler not preserving order in metadata output.

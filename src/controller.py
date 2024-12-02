@@ -39,7 +39,11 @@ class Controller:
     def run(self, number_of_threads: Optional[int] = None) -> None:
         LOG.info("Running filehandler.")
 
-        file_handler = PolarFileHandler(number_of_threads)
+        if number_of_threads:
+            file_handler = PolarFileHandler(number_of_threads)
+        else:
+            file_handler = PolarFileHandler()
+
         file_handler.start_download(
             self.url_file_name, self.report_file_name, self.destination
         )

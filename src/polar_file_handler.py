@@ -11,6 +11,17 @@ from .downloader import Downloader
 LOG = logging.getLogger(__name__)
 
 
+def assign_with_resize(lst, index, value):
+    """
+    Utility function that resizes a list to the specified index range if it is smaller than it.
+    """
+
+    if index >= len(lst):
+        # Extend the list with None to the required size
+        lst.extend([None] * (index + 1 - len(lst)))
+    lst[index] = value
+
+
 # Class for handling a file with download links
 class PolarFileHandler:
 
@@ -21,7 +32,7 @@ class PolarFileHandler:
         self.number_of_threads = number_of_threads
 
     # Function that starts a download instance using the downloader class. Used in threads
-    def download_thread(self, queue: Queue) -> None:
+    def download_thread(self, index: int, queue: Queue) -> None:
         LOG.debug("Running download thread with queue = %", queue)
 
         while not queue.empty():
@@ -34,20 +45,25 @@ class PolarFileHandler:
             Path(destination).mkdir(exist_ok=True)
 
             # Dictionaries are not necesarily thread safe but appending to it is so this is fine. If more complicated tasks where needed you would use a mutex lock etc
-            finished_dict["BRnum"].append(name)
+            assign_with_resize(finished_dict["BRnum"], index, name)
             downloaded = downloader.download(
                 url=link,
                 destination_path=os.path.join(destination, name + ".pdf"),
                 alt_url=alt_link,
             )
-            if downloaded:
-                finished_dict["pdf_downloaded"].append("yes")
-            else:
-                finished_dict["pdf_downloaded"].append("no")
+
+            assign_with_resize(
+                finished_dict["pdf_downloaded"],
+                index,
+                "yes" if downloaded else "no",
+            )
             queue.task_done()
 
-    # Starts downlaoding files from urls listed in url_file which will be placed in the destination, and reported in the meta file
     def start_download(self, url_file: str, meta_file: str, destination: str) -> None:
+        """
+        Starts downlaoding files from urls listed in url_file which will be placed in the destination, and reported in the meta file.
+        """
+
         LOG.debug("Starting download of % to %", url_file, destination)
 
         file_data = pl.read_excel(
@@ -85,9 +101,10 @@ class PolarFileHandler:
             # Creates a new thread and adds them to the list so that we can make sure all downloads are done before exiting
             queue.put([link, destination, index, alt_link, finished_dict])
             j += 1
+
         # Makes sure each thread is done
         for i in range(self.number_of_threads):
-            thread = threading.Thread(target=self.download_thread, args=(queue,))
+            thread = threading.Thread(target=self.download_thread, args=(i, queue))
             thread.start()
 
         queue.join()
@@ -98,5 +115,6 @@ class PolarFileHandler:
             finished_data_frame = pl.concat(
                 [finished_data_frame, report_data], rechunk=True
             )
+
         with Workbook(meta_file) as file:
             finished_data_frame.write_excel(workbook=file)
