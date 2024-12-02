@@ -1,7 +1,16 @@
 # My main function
 import argparse
-
+import logging
 from .controller import Controller
+
+# Configure the logging system
+logging.basicConfig(
+    level=logging.DEBUG,  # Set the logging level
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",  # Customize the log format
+    handlers=[logging.StreamHandler()],  # Output logs to the console
+)
+
+LOG = logging.getLogger(__name__)
 
 
 if __name__ == "__main__":

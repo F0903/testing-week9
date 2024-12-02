@@ -33,6 +33,8 @@ then
 pip install -r requirements.txt
 ```
 
+> Ensure that you have the GRI_2017_2020.xlsx dataset in the `customer_data` folder.
+
 ## Usage
 
 ### Run with default values

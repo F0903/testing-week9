@@ -1,5 +1,8 @@
+import logging
 import requests
 from typing import Optional
+
+LOG = logging.getLogger(__name__)
 
 
 # Class for handling a single download. The function main functionality is to take an url and download it into the path
@@ -10,6 +13,7 @@ class Downloader:
     def download(
         self, url: str, destination_path: str, alt_url: Optional[str] = None
     ) -> bool:
+        LOG.info("Downloading url %...", url)
 
         success = True
         if not url and not alt_url:
@@ -42,11 +46,3 @@ class Downloader:
             except:
                 return False
         return success
-
-
-if __name__ == "__main__":
-    downloader = Downloader()
-    downloader.download(
-        "http://arpeissig.at/wp-content/uploads/2016/02/D7_NHB_ARP_Final_2.pdf",
-        "test.pdf",
-    )

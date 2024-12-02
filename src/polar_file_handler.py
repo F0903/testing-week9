@@ -1,3 +1,4 @@
+import logging
 import os
 from pathlib import Path
 import threading
@@ -7,19 +8,28 @@ import polars as pl
 from xlsxwriter import Workbook
 from .downloader import Downloader
 
+LOG = logging.getLogger(__name__)
+
 
 # Class for handling a file with download links
 class PolarFileHandler:
 
     # Creates an instance of the filehandler with a dictionary of successfull downloads
     def __init__(self, number_of_threads: Optional[int] = 10) -> None:
+        LOG.info("Initializing PolarFileHandler with % threads...", number_of_threads)
+
         self.number_of_threads = number_of_threads
 
     # Function that starts a download instance using the downloader class. Used in threads
     def download_thread(self, queue: Queue) -> None:
+        LOG.debug("Running download thread with queue = %", queue)
+
         while not queue.empty():
 
             link, destination, name, alt_link, finished_dict = queue.get()
+
+            LOG.debug("Setting up download of %", name)
+
             downloader = Downloader()
             Path(destination).mkdir(exist_ok=True)
 
@@ -38,6 +48,7 @@ class PolarFileHandler:
 
     # Starts downlaoding files from urls listed in url_file which will be placed in the destination, and reported in the meta file
     def start_download(self, url_file: str, meta_file: str, destination: str) -> None:
+        LOG.debug("Starting download of % to %", url_file, destination)
 
         file_data = pl.read_excel(
             source=url_file, columns=["BRnum", "Pdf_URL", "Report Html Address"]
@@ -89,12 +100,3 @@ class PolarFileHandler:
             )
         with Workbook(meta_file) as file:
             finished_data_frame.write_excel(workbook=file)
-
-
-if __name__ == "__main__":
-    file_handler = PolarFileHandler()
-    file_handler.start_download(
-        os.path.join("customer_data", "GRI_2017_2020.xlsx"),
-        os.path.join("customer_data", "Metadata2017_2020.xlsx"),
-        "files",
-    )
