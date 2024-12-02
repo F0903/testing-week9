@@ -8,7 +8,7 @@ To run the project simply first create a new virtual environment
 python -m venv .venv
 ```
 
-for windows make sure that LocalMachine execution policy is set to AllSigned
+for windows (if using PowerShell) make sure that LocalMachine execution policy is set to AllSigned
 
 ```
 Set-ExecutionPolicy -ExecutionPolicy AllSigned -Scope LocalMachine
@@ -20,13 +20,13 @@ then run
 ./.venv/Scripts/activate
 ```
 
-for windows or
+for windows (PowerShell) or
 
 ```
 . .venv/bin/activate
 ```
 
-for macos or linux
+for macos or linux (bash)
 then
 
 ```
@@ -38,7 +38,7 @@ pip install -r requirements.txt
 ### Run with default values
 
 ```
-python Controller.py
+python -m src.main
 ```
 
 ### Overwrite parameters
@@ -57,3 +57,5 @@ I have no speficic points I want you to look at for feedback, so just find what 
 - Deleted unused FileHandler.py
 - Fixed class and file naming
 - Removed explicit inheritance from object
+- Moved the "main function" to its own main.py
+- Moved source files to "src" directory
