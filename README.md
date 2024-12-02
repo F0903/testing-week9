@@ -61,3 +61,5 @@ I have no speficic points I want you to look at for feedback, so just find what 
 - Removed explicit inheritance from object
 - Moved the "main function" to its own main.py
 - Moved source files to "src" directory
+- Added test directory for tests
+- Wrote the tests
