@@ -6,6 +6,7 @@ from .utils.http_file_server import TestHTTPServer
 TEMP_DIR = "./temp/"
 
 
+# Consider looking into monkey patching instead of the HTTP server
 def test_downloader():
     downloader = Downloader()
     with TestHTTPServer():

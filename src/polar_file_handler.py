@@ -46,6 +46,7 @@ class PolarFileHandler:
 
             # Dictionaries are not necesarily thread safe but appending to it is so this is fine. If more complicated tasks where needed you would use a mutex lock etc
             assign_with_resize(finished_dict["BRnum"], index, name)
+
             downloaded = downloader.download(
                 url=link,
                 destination_path=os.path.join(destination, name + ".pdf"),
@@ -97,9 +98,9 @@ class PolarFileHandler:
                 break
             alt_link = row["Report Html Address"]
             link = row["Pdf_URL"]
-            index = row[ID]
+            id = row[ID]
             # Creates a new thread and adds them to the list so that we can make sure all downloads are done before exiting
-            queue.put([link, destination, index, alt_link, finished_dict])
+            queue.put([link, destination, id, alt_link, finished_dict])
             j += 1
 
         # Makes sure each thread is done
