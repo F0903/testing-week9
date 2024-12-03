@@ -22,7 +22,7 @@ class TestingPDFFileRequest(BaseHTTPRequestHandler):
         self.wfile.write(b"%PDF-1.7")
 
 
-class TestHTTPServer:
+class TestingHTTPServer:
     """
     An extremely simple HTTP server for testing.
 

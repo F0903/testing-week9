@@ -12,3 +12,6 @@ files/
 
 # Test output
 temp/
+
+dist/
+build/

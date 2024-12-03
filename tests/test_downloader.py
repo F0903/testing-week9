@@ -1,7 +1,7 @@
 import os
 import pathlib
 from src.downloader import Downloader
-from .utils.http_file_server import TestHTTPServer
+from .utils.http_file_server import TestingHTTPServer
 
 TEMP_DIR = "./temp/"
 
@@ -9,7 +9,7 @@ TEMP_DIR = "./temp/"
 # Consider looking into monkey patching instead of the HTTP server
 def test_downloader():
     downloader = Downloader()
-    with TestHTTPServer():
+    with TestingHTTPServer():
         base_dir = pathlib.Path(TEMP_DIR)
         base_dir.mkdir(exist_ok=True)
 

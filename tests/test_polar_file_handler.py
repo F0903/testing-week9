@@ -1,7 +1,7 @@
 import pathlib
 from queue import Queue
 from src.polar_file_handler import PolarFileHandler
-from .utils.http_file_server import TestHTTPServer
+from .utils.http_file_server import TestingHTTPServer
 
 
 def test_download_thread():
@@ -20,7 +20,7 @@ def test_download_thread():
         queue.put(item)
         original_queue_items.append(item)
 
-    with TestHTTPServer():
+    with TestingHTTPServer():
         file_handler.download_thread(queue)
 
     for i in range(0, NUM_TEST_TASKS):
