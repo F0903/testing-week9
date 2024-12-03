@@ -25,7 +25,7 @@ then run
 for PowerShell or
 
 ```
-. .venv/bin/activate
+. .venv/Scripts/activate
 ```
 
 for bash
