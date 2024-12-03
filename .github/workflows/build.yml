@@ -35,7 +35,7 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Build release distributions
       run: |
-        pyinstaller src/main.py
+        pyinstaller --onefile --collect-submodules src
 
     - name: Upload distributions
       uses: actions/upload-artifact@v4
