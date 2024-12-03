@@ -4,8 +4,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Dataset and metadata
-*.xlsx
+# Ignote metadeta
+Metadata*
 
 # Output
 files/

@@ -3,7 +3,7 @@ import threading
 from typing import Self
 
 
-class TestPDFFileRequest(BaseHTTPRequestHandler):
+class TestingPDFFileRequest(BaseHTTPRequestHandler):
     """
     PDF file request for testing
     """
@@ -33,7 +33,7 @@ class TestHTTPServer:
 
     def __init__(self):
         server_address = ("localhost", 8000)
-        self.httpd = HTTPServer(server_address, TestPDFFileRequest)
+        self.httpd = HTTPServer(server_address, TestingPDFFileRequest)
 
     def serve(self):
         self.httpd.serve_forever()
