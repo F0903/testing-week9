@@ -1,6 +1,8 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import threading
 from typing import Self
+import base64
+from .embedded_pdf import EMBEDDED_PDF
 
 
 class TestingPDFFileRequest(BaseHTTPRequestHandler):
@@ -19,7 +21,9 @@ class TestingPDFFileRequest(BaseHTTPRequestHandler):
         self.send_header("Content-Type", "application/pdf")
         self.send_header("Content-Disposition", "attachment; filename=test.pdf")
         self.end_headers()
-        self.wfile.write(b"%PDF-1.7")
+
+        pdf_content = base64.b64decode(EMBEDDED_PDF)
+        self.wfile.write(pdf_content)
 
 
 class TestingHTTPServer:

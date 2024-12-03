@@ -1,7 +1,7 @@
 import os
 import pathlib
 from src.downloader import Downloader
-from .utils.http_file_server import TestingHTTPServer
+from .utils.testing_http_server import TestingHTTPServer
 
 TEMP_DIR = "./temp/"
 
