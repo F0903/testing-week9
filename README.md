@@ -1,3 +1,5 @@
+[![Run tests](https://github.com/F0903/testing-week9/actions/workflows/run-tests.yml/badge.svg)](https://github.com/F0903/testing-week9/actions/workflows/run-tests.yml)
+
 # PDF Downloader
 
 ## Prerequisites
