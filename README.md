@@ -35,8 +35,6 @@ then
 pip install -r requirements.txt
 ```
 
-> Ensure that you have the GRI_2017_2020.xlsx dataset in the `customer_data` folder.
-
 ## Usage
 
 ### Run with default values
@@ -65,6 +63,8 @@ I have no speficic points I want you to look at for feedback, so just find what 
 - Moved source files to "src" directory
 - Added test directory for tests
 - Wrote tests for controller.py
-- Fixed PolarFileHandler not preserving order in metadata output.
+- Fixed PolarFileHandler not preserving order in metadata output
+- Wrote a "testing http server" to serve PDFs for the tests
 - Wrote tests for downloader.py
 - Wrote tests for polar_file_handler.py
+- Uploaded the dataset for easy usage
