@@ -20,13 +20,13 @@ then run
 ./.venv/Scripts/activate
 ```
 
-for windows (PowerShell) or
+for PowerShell or
 
 ```
 . .venv/bin/activate
 ```
 
-for macos or linux (bash)
+for bash
 then
 
 ```
@@ -62,5 +62,7 @@ I have no speficic points I want you to look at for feedback, so just find what 
 - Moved the "main function" to its own main.py
 - Moved source files to "src" directory
 - Added test directory for tests
-- Wrote the tests
+- Wrote tests for controller.py
 - Fixed PolarFileHandler not preserving order in metadata output.
+- Wrote tests for downloader.py
+- Wrote tests for polar_file_handler.py
