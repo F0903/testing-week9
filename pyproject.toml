@@ -1,6 +1,0 @@
-[project]
-name = "spam-eggs"
-dynamic = ["version"]
-
-[tool.cibuildwheel]
-build-frontend = "build"
