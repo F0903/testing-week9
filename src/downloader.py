@@ -11,7 +11,7 @@ class Downloader:
     # uses a url link and a destination to download a file. Optionally one can use an alt url if applicaple
     # Returns success is file got downlaoded
     def download(
-        self, url: str, destination_path: str, alt_url: Optional[str] = None
+        self, url: str, destination_path: str, alt_url: Optional[str] = None, timeout=30
     ) -> bool:
         LOG.info("Downloading url %...", url)
 
@@ -20,7 +20,7 @@ class Downloader:
             return False
         # Tries downloading with the main url
         try:
-            response = requests.get(url, stream=True, timeout=30)
+            response = requests.get(url, stream=True, timeout=timeout)
             # Checks if the response was a pdf file
             if not "application/pdf" in response.headers.get("content-type"):
                 raise Exception("Not pdf type")
@@ -30,7 +30,7 @@ class Downloader:
         # If it fails to download try the alternative url
         if not success:
             try:
-                response = requests.get(alt_url, stream=True, timeout=30)
+                response = requests.get(alt_url, stream=True, timeout=timeout)
                 # Checks if the response was a pdf file
                 if not "application/pdf" in response.headers.get("content-type"):
                     raise Exception("Not pdf type")

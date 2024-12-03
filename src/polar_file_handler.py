@@ -26,10 +26,11 @@ def assign_with_resize(lst, index, value):
 class PolarFileHandler:
 
     # Creates an instance of the filehandler with a dictionary of successfull downloads
-    def __init__(self, number_of_threads: Optional[int] = 10) -> None:
+    def __init__(self, number_of_threads: Optional[int] = 10, timeout=30) -> None:
         LOG.info("Initializing PolarFileHandler with % threads...", number_of_threads)
 
         self.number_of_threads = number_of_threads
+        self.timeout = timeout
 
     # Function that starts a download instance using the downloader class. Used in threads
     def download_thread(self, queue: Queue) -> None:
@@ -50,6 +51,7 @@ class PolarFileHandler:
                 url=link,
                 destination_path=os.path.join(destination, name + ".pdf"),
                 alt_url=alt_link,
+                timeout=self.timeout,
             )
 
             assign_with_resize(
