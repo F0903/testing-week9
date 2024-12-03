@@ -46,6 +46,6 @@ def test_start_download():
     # Just run the downloader. The most essential parts are tested in test_download_thread.
     file_handler.start_download(
         "customer_data/GRI_2017_2020.xlsx",
-        "customer_data/Metadata2017_2020.xlsx",
+        "temp/Metadata2017_2020.xlsx",
         "temp/",
     )
