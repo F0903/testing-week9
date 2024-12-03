@@ -32,12 +32,11 @@ class PolarFileHandler:
         self.number_of_threads = number_of_threads
 
     # Function that starts a download instance using the downloader class. Used in threads
-    def download_thread(self, index: int, queue: Queue) -> None:
+    def download_thread(self, queue: Queue) -> None:
         LOG.debug("Running download thread with queue = %", queue)
 
         while not queue.empty():
-
-            link, destination, name, alt_link, finished_dict = queue.get()
+            index, link, destination, name, alt_link, finished_dict = queue.get()
 
             LOG.debug("Setting up download of %", name)
 
@@ -93,19 +92,19 @@ class PolarFileHandler:
         # counter to only download 10 files
         j = 0
         # We thru each br number and starts a download
-        for row in file_data.rows(named=True):
+        for index, row in enumerate(file_data.rows(named=True)):
             if j == 20:
                 break
             alt_link = row["Report Html Address"]
             link = row["Pdf_URL"]
             id = row[ID]
             # Creates a new thread and adds them to the list so that we can make sure all downloads are done before exiting
-            queue.put([link, destination, id, alt_link, finished_dict])
+            queue.put([index, link, destination, id, alt_link, finished_dict])
             j += 1
 
         # Makes sure each thread is done
-        for i in range(self.number_of_threads):
-            thread = threading.Thread(target=self.download_thread, args=(i, queue))
+        for _ in range(self.number_of_threads):
+            thread = threading.Thread(target=self.download_thread, args=(queue,))
             thread.start()
 
         queue.join()

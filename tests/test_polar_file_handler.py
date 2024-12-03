@@ -10,28 +10,34 @@ def test_download_thread():
     # Creates a dictionary of downloads
     finished_dict = {"BRnum": [], "pdf_downloaded": []}
 
+    original_queue_items = []
     queue = Queue()
 
     NUM_TEST_TASKS = 3
 
     for i in range(0, NUM_TEST_TASKS):
-        queue.put(["http://localhost:8000/pdf", f"temp/", str(i), None, finished_dict])
+        item = [i, "http://localhost:8000/pdf", f"temp/", str(i), None, finished_dict]
+        queue.put(item)
+        original_queue_items.append(item)
 
     with TestHTTPServer():
-        for i in range(0, NUM_TEST_TASKS):
-            file_handler.download_thread(i, queue)
+        file_handler.download_thread(queue)
 
     for i in range(0, NUM_TEST_TASKS):
         id = finished_dict["BRnum"][i]
-        is_downloaded = finished_dict["pdf_downloaded"][i]
+        is_downloaded = finished_dict["pdf_downloaded"][i] == "yes"
 
-        queue_item = queue[i]
-        dest_dir = queue_item[1]
-        dest_name = queue_item[2]
+        queue_item = original_queue_items[i]
 
-        file_path = pathlib.Path(queue_item)
+        # Not exactly elegant, but sort of required with this codebase.
+        ITEM_DIR_INDEX = 2
+        ITEM_NAME_INDEX = 3
 
-        assert is_downloaded and file_path.exists()
+        dest_dir = pathlib.Path(queue_item[ITEM_DIR_INDEX])
+        dest_name = queue_item[ITEM_NAME_INDEX]
+        full_dest = dest_dir.joinpath(dest_name + ".pdf")
+
+        assert is_downloaded and full_dest.exists()
 
 
 def test_start_download():
