@@ -61,7 +61,13 @@ class PolarFileHandler:
             )
             queue.task_done()
 
-    def start_download(self, url_file: str, meta_file: str, destination: str) -> None:
+    def start_download(
+        self,
+        url_file: str,
+        meta_file: str,
+        destination: str,
+        write_metadata: bool = True,
+    ) -> None:
         """
         Starts downlaoding files from urls listed in url_file which will be placed in the destination, and reported in the meta file.
         """
@@ -114,13 +120,15 @@ class PolarFileHandler:
             thread.start()
 
         queue.join()
-        # Creates a dataframe from the dictionary of downloads
-        finished_data_frame = pl.from_dict(finished_dict)
 
-        if not report_data.is_empty():
-            finished_data_frame = pl.concat(
-                [finished_data_frame, report_data], rechunk=True
-            )
+        if write_metadata:
+            # Creates a dataframe from the dictionary of downloads
+            finished_data_frame = pl.from_dict(finished_dict)
 
-        with Workbook(meta_file) as file:
-            finished_data_frame.write_excel(workbook=file)
+            if not report_data.is_empty():
+                finished_data_frame = pl.concat(
+                    [finished_data_frame, report_data], rechunk=True
+                )
+
+            with Workbook(meta_file) as file:
+                finished_data_frame.write_excel(workbook=file)

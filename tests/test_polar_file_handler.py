@@ -65,3 +65,24 @@ def test_start_download():
     # Just do a basic test to see if at least 1 pdf file is present.
     pdf_count = check_dir_for_filetypes(dest_dir, ".pdf")
     assert pdf_count > 0
+
+
+def test_start_download_existing_metadata():
+    file_handler = PolarFileHandler(timeout=5)
+
+    dest_dir = pathlib.Path("temp/test_start_download/")
+
+    # Delete these things if they already exist so it actually downloads stuff
+    shutil.rmtree(dest_dir, True)
+
+    with TestingHTTPServer():
+        file_handler.start_download(
+            "resources/testing/testing_dataset.xlsx",
+            "resources/testing/testing_metadata.xlsx",
+            dest_dir,
+            write_metadata=False,
+        )
+
+    # Just do a basic test to see if at least 1 pdf file is present.
+    pdf_count = check_dir_for_filetypes(dest_dir, ".pdf")
+    assert pdf_count > 0

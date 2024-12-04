@@ -73,6 +73,7 @@ I have no speficic points I want you to look at for feedback, so just find what 
 - Fixed issue where the program would crash if all downloads in the dataset had already succeeded
 - Wrote test for server deny case in downloader
 - Wrote test for controller::run
+- Wrote test for case where existing metadata lists partially downloaded content
 
 ### Testing usage
 
