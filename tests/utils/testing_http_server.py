@@ -5,18 +5,12 @@ import base64
 from .embedded_pdf import EMBEDDED_PDF
 
 
-class TestingPDFFileRequest(BaseHTTPRequestHandler):
+class TestingRequestHandler(BaseHTTPRequestHandler):
     """
-    PDF file request for testing
+    Custom request handler for testing server.
     """
 
-    def do_GET(self):
-        if not self.path == "/pdf":
-            self.send_response(404)
-            self.end_headers()
-            self.wfile.write(b"Not Found")
-            return
-
+    def pdf(self):
         self.send_response(200)
         self.send_header("Content-Type", "application/pdf")
         self.send_header("Content-Disposition", "attachment; filename=test.pdf")
@@ -24,6 +18,15 @@ class TestingPDFFileRequest(BaseHTTPRequestHandler):
 
         pdf_content = base64.b64decode(EMBEDDED_PDF)
         self.wfile.write(pdf_content)
+
+    def do_GET(self):
+        match self.path:
+            case "/pdf":
+                self.pdf()
+            case _:
+                self.send_response(404)
+                self.end_headers()
+                self.wfile.write(b"Not Found")
 
 
 class TestingHTTPServer:
@@ -37,7 +40,7 @@ class TestingHTTPServer:
 
     def __init__(self):
         server_address = ("localhost", 8000)
-        self.httpd = HTTPServer(server_address, TestingPDFFileRequest)
+        self.httpd = HTTPServer(server_address, TestingRequestHandler)
 
     def serve(self):
         self.httpd.serve_forever()
