@@ -43,7 +43,7 @@ def main():
         try:
             controller.run(int(args.threads))
         except:
-            print("Thread should be an integer")
+            raise ValueError("Thread should be an integer")
     else:
         controller.run()
 
