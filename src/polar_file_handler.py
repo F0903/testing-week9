@@ -61,12 +61,6 @@ class PolarFileHandler:
             )
             queue.task_done()
 
-    def download_thread_error_wrapper(self, queue: Queue):
-        try:
-            self.download_thread(queue)
-        except Exception as err:
-            LOG.error("Download thread threw exception!\n%", err)
-
     def start_download(self, url_file: str, meta_file: str, destination: str) -> None:
         """
         Starts downlaoding files from urls listed in url_file which will be placed in the destination, and reported in the meta file.
