@@ -4,7 +4,7 @@ import sys
 from src.main import main
 from pytest import MonkeyPatch
 from .utils.testing_http_server import TestingHTTPServer
-from .utils.check_dir import check_dir_for_filetypes
+from .utils.fs_utils import check_dir_for_filetypes
 
 
 def test_main():

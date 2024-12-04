@@ -1,6 +1,8 @@
 import os
 import pathlib
+import shutil
 from src.downloader import Downloader
+from .utils.fs_utils import remove_if_exists
 from .utils.testing_http_server import TestingHTTPServer
 
 TEMP_DIR = "./temp/"
@@ -14,9 +16,7 @@ def test_downloader():
     base_dir.mkdir(exist_ok=True)
 
     file_dest_path = base_dir.joinpath("test_downloader_file.pdf")
-    if file_dest_path.exists():
-        # Remove old if exists
-        os.remove(file_dest_path)
+    remove_if_exists(file_dest_path)
 
     with TestingHTTPServer():
         success = downloader.download("http://localhost:8000/pdf", file_dest_path)
@@ -31,9 +31,7 @@ def test_downloader_failure():
     base_dir.mkdir(exist_ok=True)
 
     file_dest_path = base_dir.joinpath("test_downloader_file.pdf")
-    if file_dest_path.exists():
-        # Remove old if exists
-        os.remove(file_dest_path)
+    remove_if_exists(file_dest_path)
 
     with TestingHTTPServer():
         success = downloader.download("http://localhost:8000/deny", file_dest_path)

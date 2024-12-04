@@ -2,7 +2,7 @@ import pathlib
 import shutil
 import pytest
 from src.controller import Controller
-from .utils.check_dir import check_dir_for_filetypes
+from .utils.fs_utils import check_dir_for_filetypes
 from .utils.testing_http_server import TestingHTTPServer
 
 

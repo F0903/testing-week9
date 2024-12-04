@@ -2,7 +2,7 @@ import pathlib
 from queue import Queue
 import shutil
 from src.polar_file_handler import PolarFileHandler
-from .utils.check_dir import check_dir_for_filetypes
+from .utils.fs_utils import check_dir_for_filetypes
 from .utils.testing_http_server import TestingHTTPServer
 
 

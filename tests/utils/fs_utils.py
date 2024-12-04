@@ -1,3 +1,4 @@
+import errno
 import os
 
 
@@ -14,3 +15,11 @@ def check_dir_for_filetypes(dest_dir: str, extension: str) -> int:
             count += 1
 
     return count
+
+
+def remove_if_exists(filename: str):
+    try:
+        os.remove(filename)
+    except OSError as e:
+        if e.errno != errno.ENOENT:  # errno.ENOENT = no such file or directory
+            raise  # re-raise exception if a different error occurred
