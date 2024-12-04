@@ -64,7 +64,8 @@ I have no speficic points I want you to look at for feedback, so just find what 
 - Added test directory for tests
 - Wrote tests for controller.py
 - Fixed PolarFileHandler not preserving order in metadata output
-- Wrote a "testing http server" to serve PDFs for the tests
+- Wrote a "testing http server" to serve requests for the tests
 - Wrote tests for downloader.py
 - Wrote tests for polar_file_handler.py
 - Uploaded the dataset for easy usage
+- Embedded a PDF in B64 for easy sending via testing http server
