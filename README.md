@@ -69,3 +69,4 @@ I have no speficic points I want you to look at for feedback, so just find what 
 - Wrote tests for polar_file_handler.py
 - Uploaded the dataset for easy usage
 - Embedded a PDF in B64 for easy sending via testing http server
+- Wrote a test for the main function

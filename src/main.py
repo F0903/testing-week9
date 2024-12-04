@@ -13,7 +13,7 @@ logging.basicConfig(
 LOG = logging.getLogger(__name__)
 
 
-if __name__ == "__main__":
+def main():
     controller = Controller()
 
     # Adds a commandline parser
@@ -46,3 +46,7 @@ if __name__ == "__main__":
             print("Thread should be an integer")
     else:
         controller.run()
+
+
+if __name__ == "__main__":
+    main()
