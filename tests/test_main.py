@@ -13,9 +13,9 @@ def test_main():
                 "-uf",
                 "customer_data/GRI_2017_2020.xlsx",
                 "-rf",
-                "temp/Metadata2017_2020.xlsx",
+                "temp/test_main/Metadata2017_2020.xlsx",
                 "-d",
-                "temp/",
+                "temp/test_main/",
             ],
         )
 
