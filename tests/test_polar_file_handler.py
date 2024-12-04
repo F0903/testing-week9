@@ -1,5 +1,6 @@
 import pathlib
 from queue import Queue
+import shutil
 from src.polar_file_handler import PolarFileHandler
 from .utils.check_dir import check_dir_for_filetypes
 from .utils.testing_http_server import TestingHTTPServer
@@ -49,12 +50,17 @@ def test_download_thread():
 def test_start_download():
     file_handler = PolarFileHandler(timeout=5)
 
-    dest_dir = "temp/test_start_download/"
+    dest_dir = pathlib.Path("temp/test_start_download/")
+    meta_path = pathlib.Path("temp/test_start_download/Metadata2017_2020.xlsx")
+
+    # Delete these things if they already exist so it actually downloads stuff
+    shutil.rmtree(dest_dir, True)
+    shutil.rmtree(meta_path, True)
 
     with TestingHTTPServer():
         file_handler.start_download(
             "resources/testing/testing_dataset.xlsx",
-            "temp/test_start_download/Metadata2017_2020.xlsx",
+            meta_path,
             dest_dir,
         )
 
