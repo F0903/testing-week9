@@ -19,10 +19,25 @@ class TestingRequestHandler(BaseHTTPRequestHandler):
         pdf_content = base64.b64decode(EMBEDDED_PDF)
         self.wfile.write(pdf_content)
 
+    def text(self):
+        self.send_response(200)
+        self.send_header("Content-Type", "text/plain; charset=UTF-8")
+        self.end_headers()
+        self.wfile.write(b"Hello, this is a test string.")
+
+    def deny(self):
+        self.send_response(401)
+        self.end_headers()
+        self.wfile.write(b"Denied")
+
     def do_GET(self):
         match self.path:
             case "/pdf":
                 self.pdf()
+            case "/text":
+                self.text()
+            case "/deny":
+                self.deny()
             case _:
                 self.send_response(404)
                 self.end_headers()

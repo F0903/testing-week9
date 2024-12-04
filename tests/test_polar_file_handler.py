@@ -51,16 +51,14 @@ def test_start_download():
     file_handler = PolarFileHandler(timeout=5)
 
     dest_dir = pathlib.Path("temp/test_start_download/")
-    meta_path = pathlib.Path("temp/test_start_download/Metadata2017_2020.xlsx")
 
     # Delete these things if they already exist so it actually downloads stuff
     shutil.rmtree(dest_dir, True)
-    shutil.rmtree(meta_path, True)
 
     with TestingHTTPServer():
         file_handler.start_download(
             "resources/testing/testing_dataset.xlsx",
-            meta_path,
+            "temp/test_start_download/test_metadata.xlsx",
             dest_dir,
         )
 

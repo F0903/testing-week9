@@ -71,3 +71,9 @@ I have no speficic points I want you to look at for feedback, so just find what 
 - Embedded a PDF in B64 for easy sending via testing http server
 - Wrote a test for the main function
 - Fixed issue where the program would crash if all downloads in the dataset had already succeeded
+- Wrote test for server deny case in downloader
+- Wrote test for controller::run
+
+### Testing usage
+
+To run the tests, it's recommended to use the `Testing` tab in VSCode for easy usage. Otherwise, you can run the tests with `pytest tests/`

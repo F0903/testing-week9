@@ -42,7 +42,7 @@ class PolarFileHandler:
             LOG.debug("Setting up download of %", name)
 
             downloader = Downloader()
-            Path(destination).mkdir(exist_ok=True)
+            Path(destination).mkdir(exist_ok=True, parents=True)
 
             # Dictionaries are not necesarily thread safe but appending to it is so this is fine. If more complicated tasks where needed you would use a mutex lock etc
             assign_with_resize(finished_dict["BRnum"], index, name)
@@ -60,6 +60,12 @@ class PolarFileHandler:
                 "yes" if downloaded else "no",
             )
             queue.task_done()
+
+    def download_thread_error_wrapper(self, queue: Queue):
+        try:
+            self.download_thread(queue)
+        except Exception as err:
+            LOG.error("Download thread threw exception!\n%", err)
 
     def start_download(self, url_file: str, meta_file: str, destination: str) -> None:
         """

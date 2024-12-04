@@ -10,11 +10,9 @@ from .utils.check_dir import check_dir_for_filetypes
 def test_main():
     with MonkeyPatch().context() as mp:
         dest_dir = pathlib.Path("temp/test_main/")
-        meta_path = pathlib.Path("temp/test_main/Metadata2017_2020.xlsx")
 
         # Delete these things if they already exist so it actually downloads stuff
         shutil.rmtree(dest_dir, True)
-        shutil.rmtree(meta_path, True)
 
         # Set command line arguments to test with.
         mp.setattr(
@@ -25,7 +23,7 @@ def test_main():
                 "-uf",
                 "resources/testing/testing_dataset.xlsx",
                 "-rf",
-                str(meta_path),
+                "temp/test_main/test_metadata.xlsx",
                 "-d",
                 str(dest_dir),
                 "-t",
