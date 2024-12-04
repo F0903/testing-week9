@@ -70,3 +70,4 @@ I have no speficic points I want you to look at for feedback, so just find what 
 - Uploaded the dataset for easy usage
 - Embedded a PDF in B64 for easy sending via testing http server
 - Wrote a test for the main function
+- Fixed issue where the program would crash if all downloads in the dataset had already succeeded

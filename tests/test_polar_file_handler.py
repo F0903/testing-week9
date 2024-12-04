@@ -1,13 +1,14 @@
 import pathlib
 from queue import Queue
 from src.polar_file_handler import PolarFileHandler
+from .utils.check_dir import check_dir_for_filetypes
 from .utils.testing_http_server import TestingHTTPServer
 
 
 def test_download_thread():
     file_handler = PolarFileHandler()
 
-    # Creates a dictionary of downloads
+    # "Creates a dictionary of downloads"
     finished_dict = {"BRnum": [], "pdf_downloaded": []}
 
     original_queue_items = []
@@ -15,21 +16,24 @@ def test_download_thread():
 
     NUM_TEST_TASKS = 3
 
+    # Queue up the items for download
     for i in range(0, NUM_TEST_TASKS):
         item = [i, "http://localhost:8000/pdf", f"temp/", str(i), None, finished_dict]
         queue.put(item)
         original_queue_items.append(item)
 
+    # Spin up the testing server and start the download
     with TestingHTTPServer():
         file_handler.download_thread(queue)
 
+    # Assert download results
     for i in range(0, NUM_TEST_TASKS):
         id = finished_dict["BRnum"][i]
         is_downloaded = finished_dict["pdf_downloaded"][i] == "yes"
 
         queue_item = original_queue_items[i]
 
-        # Not exactly elegant, but sort of required with this codebase.
+        # Not exactly elegant, but sort of required with this codebase
         ITEM_DIR_INDEX = 2
         ITEM_NAME_INDEX = 3
 
@@ -37,15 +41,23 @@ def test_download_thread():
         dest_name = queue_item[ITEM_NAME_INDEX]
         full_dest = dest_dir.joinpath(dest_name + ".pdf")
 
-        assert is_downloaded and full_dest.exists()
+        # Since we are using a local mock server, the download needs to succeed
+        assert is_downloaded
+        assert full_dest.exists()
 
 
 def test_start_download():
     file_handler = PolarFileHandler(timeout=5)
 
-    # Just run the downloader. The most essential parts are tested in test_download_thread.
-    file_handler.start_download(
-        "customer_data/GRI_2017_2020.xlsx",
-        "temp/Metadata2017_2020.xlsx",
-        "temp/",
-    )
+    dest_dir = "temp/test_start_download/"
+
+    with TestingHTTPServer():
+        file_handler.start_download(
+            "resources/testing/testing_dataset.xlsx",
+            "temp/test_start_download/Metadata2017_2020.xlsx",
+            dest_dir,
+        )
+
+    # Just do a basic test to see if at least 1 pdf file is present.
+    pdf_count = check_dir_for_filetypes(dest_dir, ".pdf")
+    assert pdf_count > 0

@@ -86,6 +86,10 @@ class PolarFileHandler:
         except:
             print("New meta data file will be created")
 
+        # Return if empty, all files have been successfully downloaded
+        if not file_data.rows():
+            return
+
         queue = Queue()
 
         # Creates a dictionary of downloads
