@@ -77,4 +77,6 @@ I have no speficic points I want you to look at for feedback, so just find what 
 
 ### Testing usage
 
-To run the tests, it's recommended to use the `Testing` tab in VSCode for easy usage. Otherwise, you can run the tests with `pytest tests/`
+To run the tests, it's recommended to use the `Testing` tab in VSCode for easy usage.
+
+Otherwise, you can run the tests with `pytest tests/`

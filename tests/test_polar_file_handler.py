@@ -12,6 +12,7 @@ def test_download_thread():
     # "Creates a dictionary of downloads"
     finished_dict = {"BRnum": [], "pdf_downloaded": []}
 
+    # It's a bit difficult to get items of out the queue when all tasks are done, so keep track of them here.
     original_queue_items = []
     queue = Queue()
 
@@ -50,9 +51,8 @@ def test_download_thread():
 def test_start_download():
     file_handler = PolarFileHandler(timeout=5)
 
+    # Setup destination directory and remove it if it already exists
     dest_dir = pathlib.Path("temp/test_start_download/")
-
-    # Delete these things if they already exist so it actually downloads stuff
     shutil.rmtree(dest_dir, True)
 
     with TestingHTTPServer():
@@ -70,9 +70,8 @@ def test_start_download():
 def test_start_download_existing_metadata():
     file_handler = PolarFileHandler(timeout=5)
 
+    # Setup destination directory and remove it if it already exists
     dest_dir = pathlib.Path("temp/test_start_download/")
-
-    # Delete these things if they already exist so it actually downloads stuff
     shutil.rmtree(dest_dir, True)
 
     with TestingHTTPServer():

@@ -2,16 +2,15 @@ import shutil
 import pathlib
 import sys
 from src.main import main
-from pytest import MonkeyPatch
+import pytest
 from .utils.testing_http_server import TestingHTTPServer
 from .utils.fs_utils import check_dir_for_filetypes
 
 
 def test_main():
-    with MonkeyPatch().context() as mp:
+    with pytest.MonkeyPatch().context() as mp:
+        # Setup destination directory and remove it if it already exists
         dest_dir = pathlib.Path("temp/test_main/")
-
-        # Delete these things if they already exist so it actually downloads stuff
         shutil.rmtree(dest_dir, True)
 
         # Set command line arguments to test with.
@@ -40,29 +39,18 @@ def test_main():
 
 
 def test_main_invalid_thread_arg():
-    with MonkeyPatch().context() as mp:
-        threw = False
-        try:
+    with pytest.MonkeyPatch().context() as mp:
+        # Make sure main raises ValueError on the invalid thread arg.
+        with pytest.raises(ValueError):
             # Set command line arguments to test with.
             mp.setattr(
                 sys,
                 "argv",
                 [
                     sys.argv[0],
-                    "-uf",
-                    "resources/testing/testing_dataset.xlsx",
-                    "-rf",
-                    "temp/test_main/test_metadata.xlsx",
-                    "-d",
-                    "temp/test_main/",
                     "-t",
                     "this aint a number",
                 ],
             )
 
             main()
-
-        except Exception:
-            threw = True
-
-        assert threw

@@ -35,12 +35,14 @@ def test_set_destination():
 
 def test_run():
     controller = Controller()
+
     with pytest.MonkeyPatch().context() as mp:
         dest_dir = pathlib.Path("temp/test_controller/")
 
         # Delete these things if they already exist so it actually downloads stuff
         shutil.rmtree(dest_dir, True)
 
+        # Set cli args
         mp.setattr(
             controller, "url_file_name", "resources/testing/testing_dataset.xlsx"
         )
