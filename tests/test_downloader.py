@@ -1,9 +1,7 @@
 import pathlib
 from src.downloader import Downloader
-from .utils.fs_utils import remove_if_exists
+from .utils.fs_utils import remove_if_exists, TEMP_DIR
 from .utils.testing_http_server import TestingHTTPServer
-
-TEMP_DIR = "./temp/"
 
 
 # Consider looking into monkey patching instead of the HTTP server

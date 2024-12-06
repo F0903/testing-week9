@@ -2,7 +2,7 @@ import pathlib
 from queue import Queue
 import shutil
 from src.polar_file_handler import PolarFileHandler
-from .utils.fs_utils import check_dir_for_filetypes
+from .utils.fs_utils import check_dir_for_filetypes, TEMP_DIR
 from .utils.testing_http_server import TestingHTTPServer
 
 
@@ -20,7 +20,7 @@ def test_download_thread():
 
     # Queue up the items for download
     for i in range(0, NUM_TEST_TASKS):
-        item = [i, "http://localhost:8000/pdf", f"temp/", str(i), None, finished_dict]
+        item = [i, "http://localhost:8000/pdf", TEMP_DIR, str(i), None, finished_dict]
         queue.put(item)
         original_queue_items.append(item)
 
@@ -52,13 +52,13 @@ def test_start_download():
     file_handler = PolarFileHandler(timeout=5)
 
     # Setup destination directory and remove it if it already exists
-    dest_dir = pathlib.Path("temp/test_start_download/")
+    dest_dir = pathlib.Path(f"{TEMP_DIR}test_start_download/")
     shutil.rmtree(dest_dir, True)
 
     with TestingHTTPServer():
         file_handler.start_download(
             "resources/testing/testing_dataset.xlsx",
-            "temp/test_start_download/test_metadata.xlsx",
+            f"{TEMP_DIR}test_start_download/test_metadata.xlsx",
             dest_dir,
         )
 
@@ -71,7 +71,7 @@ def test_start_download_existing_metadata():
     file_handler = PolarFileHandler(timeout=5)
 
     # Setup destination directory and remove it if it already exists
-    dest_dir = pathlib.Path("temp/test_start_download/")
+    dest_dir = pathlib.Path(f"{TEMP_DIR}test_start_download/")
     shutil.rmtree(dest_dir, True)
 
     with TestingHTTPServer():

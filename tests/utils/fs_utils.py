@@ -1,6 +1,8 @@
 import errno
 import os
 
+TEMP_DIR = "./temp/"
+
 
 def check_dir_for_filetypes(dest_dir: str, extension: str) -> int:
     """

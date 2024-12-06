@@ -4,13 +4,13 @@ import sys
 from src.main import main
 import pytest
 from .utils.testing_http_server import TestingHTTPServer
-from .utils.fs_utils import check_dir_for_filetypes
+from .utils.fs_utils import check_dir_for_filetypes, TEMP_DIR
 
 
 def test_main():
     with pytest.MonkeyPatch().context() as mp:
         # Setup destination directory and remove it if it already exists
-        dest_dir = pathlib.Path("temp/test_main/")
+        dest_dir = pathlib.Path(f"{TEMP_DIR}test_main/")
         shutil.rmtree(dest_dir, True)
 
         # Set command line arguments to test with.
@@ -22,7 +22,7 @@ def test_main():
                 "-uf",
                 "resources/testing/testing_dataset.xlsx",
                 "-rf",
-                "temp/test_main/test_metadata.xlsx",
+                f"{TEMP_DIR}test_main/test_metadata.xlsx",
                 "-d",
                 str(dest_dir),
                 "-t",

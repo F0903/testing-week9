@@ -2,7 +2,7 @@ import pathlib
 import shutil
 import pytest
 from src.controller import Controller
-from .utils.fs_utils import check_dir_for_filetypes
+from .utils.fs_utils import check_dir_for_filetypes, TEMP_DIR
 from .utils.testing_http_server import TestingHTTPServer
 
 
@@ -37,7 +37,7 @@ def test_run():
     controller = Controller()
 
     with pytest.MonkeyPatch().context() as mp:
-        dest_dir = pathlib.Path("temp/test_controller/")
+        dest_dir = pathlib.Path(f"{TEMP_DIR}test_controller/")
 
         # Delete these things if they already exist so it actually downloads stuff
         shutil.rmtree(dest_dir, True)
@@ -47,7 +47,9 @@ def test_run():
             controller, "url_file_name", "resources/testing/testing_dataset.xlsx"
         )
         mp.setattr(
-            controller, "report_file_name", "temp/test_controller/test_metadata.xlsx"
+            controller,
+            "report_file_name",
+            f"{TEMP_DIR}test_controller/test_metadata.xlsx",
         )
         mp.setattr(controller, "destination", dest_dir)
 
