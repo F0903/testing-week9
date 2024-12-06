@@ -42,7 +42,7 @@ def test_run():
         # Delete these things if they already exist so it actually downloads stuff
         shutil.rmtree(dest_dir, True)
 
-        # Set cli args
+        # Set controller attributes
         mp.setattr(
             controller, "url_file_name", "resources/testing/testing_dataset.xlsx"
         )
